@@ -1,3 +1,6 @@
+# This repository has been moved to a new one!  Do not use pymambo.  Use pyparrot instead!
+As of 11/26/2017, I have released a major new package that can use wifi and BLE to control the Mambo and can also be used for a Bebop 2.  Please look at [pyparrot](https://github.com/amymcgovern/pyparrot)
+
 # pymambo
 Python interface for Parrot Mambo
 
@@ -13,11 +16,16 @@ This code was developed and tested on a Parrot Mambo (regular Mambo, without the
 You will need python 2.7, pybluez, and untangle.  All of these are available for the Raspberry Pi 3.  To install these do the following:
 
 ```
-sudo apt-get update
 sudo apt-get install bluetooth
 sudo apt-get install bluez
 sudo apt-get install python-bluez
 pip install untangle
+```
+
+It is possible you need to install bluepy (if it isn't already there).  These commands should do it:
+```
+sudo apt-get install python-pip libglib2.0-dev
+sudo pip install bluepysudo apt-get update
 ```
 
 To install the pymambo code, download or clone the repository.
@@ -60,7 +68,7 @@ demoClaw shows you how to control the claw.  The gun can also be controlled thro
 Each of the commands available to control the mambo is listed below with its documentation.  The code is also well documented.  All of the functions preceeded with an underscore are intended to be internal functions are not listed below.
 
 * ```Mambo(address)``` create a mambo object with the specific harware address (found using findMambo)
-* ```connect(num_retries,debug_lebel)``` connect to the Mambo's BLE services and characteristics.  This can take several seconds to ensure the connection is working.  You can specify a maximum number of re-tries.  Returns true if the connection suceeded or False otherwise.  The debug_level can be used to control the amount of printouts from the Mambo.  Set to None (default) for no printouts and 0 for all, 10 for errors only.
+* ```connect(num_retries,debug_level)``` connect to the Mambo's BLE services and characteristics.  This can take several seconds to ensure the connection is working.  You can specify a maximum number of re-tries.  Returns true if the connection suceeded or False otherwise.  The debug_level can be used to control the amount of printouts from the Mambo.  Set to None (default) for no printouts and 0 for all, 10 for errors only.
 * ```disconnect``` disconnect from the BLE connection
 * ```takeoff()``` Sends a single takeoff command to the mambo.  This is not the recommended method.
 * ```safe_takeoff()``` This is the recommended method for takeoff.  It sends a command and then checks the sensors (via flying state) to ensure the mambo is actually taking off.  Then it waits until the mambo is flying or hovering to return.
@@ -84,10 +92,16 @@ Each of the commands available to control the mambo is listed below with its doc
 
 This is a work in progress.  Planned extensions include:
 
-* FPV camera.  I was developing this beofre the Mambo had a FPV camera.  Once I get a FPV, I will udpate the library.
+* FPV camera.  Update: the FPV camera works but the Raspberry Pi can't handle the framerate so the devleopment is only initial. 
 * Downloading pictures from the downward facing camera.  We can take photos from it (mambo.take_picture()) but I haven't figured out the protocol to download the photos remotely yet.  When I figure that out, I will update the code.
-* Sensors.  The mambo currently only sends a limited number of sensors back regularly (flying state and battery).  They have stated they will improve this in a future firmware release.  I will update the code to handle the new sensors (hopefully including altitude!) when the firmware is updated.
+* Sensors.  The mambo currently only sends a limited number of sensors back regularly (flying state and battery).  They have stated they will improve this in a future firmware release.  I will update the code to handle the new sensors (hopefully including altitude!) when the firmware is updated.  11/2: working on the wifi sensor data.
 
 ## Major updates:
 * 10/6/2017: General BLE stability improvements with the specific goal of flying multiple mambos at once.  Now if BLE disconnects, it catches that event and re-connects.  
 * 10/6/2017: Multi-mambo flight is now possible so long as you control each one in a separate python file (this seems to be a limitation within bluepy). 
+* 11/3/2017: Added MamboVision code that correctly connects and grabs images from the FPV camera but the Raspberry Pi can't handle the 30 FPS so the code is not finished.  Also updated the states that are parsed via BLE.
+* 11/26/2017: All further development will happen on the [pyparrot](https://github.com/amymcgovern/pyparrot) package.
+
+## Programming and using your drones responsibly
+
+It is your job to program and use your drones responsibly!  We are not responsible for any losses or damages of your drones or injuries.  Please fly safely and obey all laws.
